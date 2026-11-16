@@ -1,0 +1,48 @@
+# Default configuration for generating Lorenz 96 trajectories.
+
+generator:
+  # K: number of grid points on the periodic ring.
+  K: 1000
+
+  # N_path: number of independent trajectories ("paths") to generate.
+  N_path: 10
+
+  # T_burn_in: number of initial output frames to discard (spin-up).
+  T_burn_in: 2000
+
+  # T_total: number of output frames to keep after burn-in.
+  T_total: 5000
+
+  # save_burn_in: if true, also save the burn-in segment as `path_{i}_burn_in.pt`.
+  save_burn_in: false
+
+  # output_interval: model time between saved frames (dimensionless L96 time units).
+  output_interval: 0.01
+
+  # seed: random seed for initial condition generation.
+  seed: 0
+
+  # data_root: parent folder under datasets/ (e.g. datasets/LORENZ96).
+  data_root: LORENZ96
+
+  # trajectory_subdir: subfolder under datasets/<data_root>/ for trajectories (path_*.pt).
+  trajectory_subdir: full_path
+
+  # compute_norm_stats: if true, run compute_norm_stats after generation (writes norm_stats.pt).
+  compute_norm_stats: true
+
+lorenz96:
+  # F: forcing parameter (F=8 is the standard chaotic regime).
+  F: 8.0
+
+  # dt: internal solver timestep (model time units).
+  dt: 0.01
+
+  # precision: floating-point precision ("single" or "double").
+  precision: "single"
+
+  # device: torch device string (e.g., "cpu", "cuda:0").
+  device: "cpu"
+
+  # tstart: initial model time.
+  tstart: 0.0

@@ -1,0 +1,35 @@
+# Consecutive next-step prediction from SQG trajectories in datasets/SQG/full_path/.
+name: sqg_path_next
+
+# Legacy zip/folder datasets use `path`.
+path: null
+
+# Prefer data_root + trajectory_subdir; legacy path_dir still works if set.
+path_dir: null
+data_root: SQG_64d_1h
+trajectory_subdir: full_path
+
+# history: number of past frames used as condition to predict the next frame.
+history: 1
+
+# Which channels from the stored trajectory to use (SQG paths: T, 2, Nx, Nx).
+var_select_target: [0, 1]
+var_select_cond: [0, 1]
+
+# null -> infer from first path_*.pt (must match generator Nx).
+img_res_h: null
+img_res_w: null
+img_input_channels: null   # defaults to len(var_select_target)
+img_cond_channels: null    # defaults to history * len(var_select_cond)
+
+class_name: training_cond.dataset.DatasetPathCond
+
+xflip: True
+yflip: True
+cache_paths: True
+ignore_burn_in_files: True
+
+apply_normalization: True
+norm_stats_path: null
+
+max_size: null

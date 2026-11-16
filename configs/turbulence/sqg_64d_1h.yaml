@@ -1,0 +1,93 @@
+# Default configuration for generating SQG turbulence trajectories.
+
+generator:
+  # Nx: grid resolution (Nx x Nx). Must be even.
+  Nx: 64
+
+  # N_path: number of independent trajectories ("paths") to generate.
+  N_path: 5
+
+  # T_burn_in: number of initial output frames to discard (spin-up).
+  T_burn_in: 200
+
+  # T_total: number of output frames to keep after burn-in.
+  T_total: 5000
+
+  # save_burn_in: if true, also save the burn-in segment as `path_{i}_burn_in.pt`.
+  save_burn_in: false
+
+  # output_interval_hours: wall-clock model time between saved frames (hours).
+  output_interval_hours: 1.0
+
+  # seed: random seed for initial condition generation.
+  seed: 0
+
+  # data_root: parent folder under datasets/ (e.g. datasets/SQG for this model).
+  data_root: SQG_64d_1h
+
+  # trajectory_subdir: subfolder under datasets/<data_root>/ for trajectories (path_*.pt).
+  trajectory_subdir: full_path
+
+  # Other experiments: change data_root / trajectory_subdir here (and matching dataset_kwargs YAML).
+
+  # compute_norm_stats: if true, run compute_norm_stats after generation (writes norm_stats.pt).
+  compute_norm_stats: true
+
+sqg:
+  # ======================
+  # Physical parameters
+  # ======================
+
+  # f: Coriolis parameter (s^-1).
+  f: 1.0e-4
+
+  # nsq: Brunt–Väisälä frequency squared, N^2 (s^-2).
+  nsq: 1.0e-4
+
+  # L: domain size (meters).
+  L: 2.0e7
+
+  # H: lid height / vertical scale (meters).
+  H: 1.0e4
+
+  # U: basic-state jet speed parameter (m/s).
+  U: 30.0
+
+  # r: Ekman damping parameter used by the solver (0 disables Ekman damping).
+  r: 0.0
+
+  # tdiab: thermal relaxation timescale (seconds).
+  tdiab: 864000.0
+
+  # symmetric: whether the jet/relaxation setup is symmetric about mid-level.
+  symmetric: true
+
+  # ======================
+  # Numerical parameters
+  # ======================
+
+  # dt: internal solver timestep (seconds). Must satisfy stability constraints.
+  dt: 300.0
+
+  # diff_order: hyperdiffusion order (e.g., 8 for 8th-order).
+  diff_order: 8
+
+  # diff_efold: e-folding time for hyperdiffusion at the grid cutoff (seconds).
+  diff_efold: 28800.0
+
+  # dealias: if true, use 2/3-rule de-aliasing (3/2 padding).
+  dealias: true
+
+  # precision: FFT precision ("single" or "double").
+  precision: "single"
+
+  # ======================
+  # Runtime parameters
+  # ======================
+
+  # device: torch device string (e.g., "cpu", "cuda:0").
+  device: "cpu"
+
+  # tstart: initial time (seconds).
+  tstart: 0.0
+

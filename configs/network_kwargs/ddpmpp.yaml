@@ -1,0 +1,14 @@
+defaults:
+  - default
+  - _self_
+
+model_name: ddpmpp
+# model setting
+channel_mult_noise: 1
+resample_filter: [1, 1]
+model_channels: 128
+channel_mult: [2, 2, 2]
+
+embedding_type: positional
+encoder_type: standard
+decoder_type: standard

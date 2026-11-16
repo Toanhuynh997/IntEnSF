@@ -1,0 +1,25 @@
+# test config setting for 
+# 
+name: sqg_patch_c2
+path: SQG/SQG_v_0_patch_32_c_2/SQG_v_0_patch_32_c_2.zip # zip
+
+#
+img_res_h: 32
+img_res_w: 32
+img_input_channels: 1 # 
+img_cond_channels: 2 # 
+
+# data class
+class_name: training_cond.dataset.DatasetCond
+
+# data augmentation
+xflip: True
+yflip: True
+
+# peformance
+cache: True
+
+########################################################
+# place holder varialbe 
+max_size: null # max size of the dataset (calcualed in the script)
+data_path_full: null # absolute path of data (will be calculated is not given)

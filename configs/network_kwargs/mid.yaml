@@ -1,0 +1,11 @@
+defaults:
+  - default
+  - _self_
+
+model_name: medium
+# model settings
+model_channels: 128              # Base multiplier for the number of channels.
+channel_mult: [1,2,2]           # Per-resolution multipliers for the number of channels.
+channel_mult_emb: 2               # Multiplier for the dimensionality of the embedding vector.
+num_blocks: 2                     # Number of residual blocks per resolution.
+attn_resolutions: [8]            # List of resolutions with self-attention.

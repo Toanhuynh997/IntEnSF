@@ -1,0 +1,32 @@
+# Consecutive next-step prediction from Lorenz 96 trajectories in datasets/LORENZ96/full_path/.
+name: lorenz96_path_next
+
+path: null
+path_dir: null
+data_root: LORENZ96
+trajectory_subdir: full_path
+
+# history: number of past frames used as condition to predict the next frame.
+history: 1
+
+# Lorenz 96 paths are stored as (T, 1, K, 1).
+var_select_target: [0]
+var_select_cond: [0]
+
+# null -> infer from first path_*.pt (must match generator K).
+img_res_h: null
+img_res_w: null
+img_input_channels: null
+img_cond_channels: null
+
+class_name: training_cond.dataset.DatasetPathCond
+
+xflip: False
+yflip: False
+cache_paths: True
+ignore_burn_in_files: True
+
+apply_normalization: True
+norm_stats_path: null
+
+max_size: null

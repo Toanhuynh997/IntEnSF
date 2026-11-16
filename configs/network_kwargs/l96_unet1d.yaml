@@ -1,0 +1,15 @@
+defaults:
+  - default
+  - _self_
+
+model_name: l96_unet1d
+class_name: training_cond.networks.CEDMPrecond1D
+model_type: SongUNet1D
+
+# 1D U-Net hyperparameters (seq_length = generator K from dataset).
+model_channels: 64
+channel_mult: [1, 2, 2, 2]
+channel_mult_emb: 2
+num_blocks: 2
+# Bottleneck length for K=1000 with channel_mult above is 125 (=1000>>3).
+attn_resolutions: [125]

@@ -1,0 +1,26 @@
+# test config setting for 
+# 
+name: test_dataset_cond
+path: testdata/testdata.zip # zip
+# path: testdata/snaps # folder
+
+#
+img_res_h: 128
+img_res_w: 64
+img_input_channels: 2 # 
+img_cond_channels: 10 # 
+
+# data class
+class_name: training_cond.dataset.DatasetCond
+
+# data augmentation
+xflip: True
+yflip: True
+
+# peformance
+cache: True
+
+########################################################
+# place holder varialbe 
+max_size: null # max size of the dataset (calcualed in the script)
+data_path_full: null # absolute path of data (will be calculated is not given)

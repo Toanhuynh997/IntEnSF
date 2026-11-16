@@ -1,0 +1,17 @@
+# @package _global_
+defaults:
+  - override /dataset_kwargs: lorenz96_path_next
+  - override /network_kwargs: l96_unet1d_tiny
+
+outdir: outputs
+
+duration: 2
+batch_size: 256
+batch_gpu: null
+optimizer_kwargs:
+  class_name: torch.optim.Adam
+
+kimg_per_tick: 10
+snapshot_ticks: 10
+state_dump_ticks: 50
+dry_run: false

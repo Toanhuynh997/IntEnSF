@@ -1,0 +1,84 @@
+# overwrite settings in the runs parameters
+defaults:
+  - _self_ # Defaults go first (lower priority)
+  - dataset_kwargs: test_cond
+  - network_kwargs: tiny
+  - runs: run_test_code  # Overrides go last (higher priority)
+  - override hydra/job_logging: none  # This disable logging completely
+
+
+# ================================================================================================
+# default settings for all configs values 
+outdir: outputs       # Where to save the results relative to project dir 
+
+# ========================
+# Training related
+duration: 200         # Training duration in MIMG (million images)
+batch_size: 512            # Total batch size across all GPUs
+batch_gpu: null       # Limit batch size per GPU
+ema: 0.5              # EMA half-life in MIMG
+augment: 0.0          # Augment probability
+optimizer_kwargs:
+  class_name: torch.optim.Adam
+  lr: 0.001    # Learning rate
+  betas: [0.9, 0.999]
+  eps: 1e-08
+
+
+# ========================
+# Performance-related
+# ========================
+loss_scaling: 1                 # Loss scaling for fp16
+cudnn_benchmark: true           # Enable cuDNN benchmarking
+cache: true           # Cache dataset in CPU memory
+
+# ========================
+# I/O-related
+# ========================
+desc: null            # String to include in result directory name
+nosubdir: false       # Do not create a subdirectory for results
+kimg_per_tick: 50              # How often to print progress (in KIMG)
+snapshot_ticks: 50              # How often to save snapshots (in ticks)
+state_dump_ticks: 500             # How often to dump training state (in ticks)
+seed: null            # Random seed [default: random]
+transfer: null        # Path or URL to pretrained model for transfer learning
+resume: null          # Path to previous training state to resume
+dry_run: false        # Print training options and exit
+
+
+loss_kwargs:
+  class_name: training_cond.loss.CEDMLoss
+
+
+# defaults setting for dataloader
+data_loader_kwargs:
+  pin_memory: True
+  num_workers: 1
+  prefetch_factor: 2
+
+# ================================================================================================
+
+# place holder 
+# varialbe to be calculated in the scripts
+total_kimg: null
+ema_halflife_kimg: null
+
+resume_pkl: null
+ema_rampup_ratio: null
+
+resume_kimg: null
+resume_state_dump: null
+
+run_dir: null
+outdir_full: null
+
+PROJECT_ROOT: null
+
+
+# Disable Hydra outputs (.config)
+hydra:
+  job:
+    chdir: false
+  run:
+    dir: .
+  output_subdir: null
