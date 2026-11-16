@@ -1,0 +1,73 @@
+# intall local packages 
+pip install -e .
+
+######################################################################
+# test code runs 
+python scripts/code_tests/1_test_path.py  # test ppathp
+python scripts/code_tests/2_test_config.py  # test config
+python scripts/code_tests/3_test_data_gen.py  # generate random testdata 
+python scripts/code_tests/4_test_dataloader.py  # test dataloader only
+python scripts/code_tests/5_test_train_cond.py runs=run_test_code dry_run=true # test trainer dry run
+python scripts/code_tests/5_test_train_cond.py runs=run_test_code # test trainer
+python scripts/code_tests/5_test_train_cond.py runs=run_test_code  resume=outputs/00000-test_dataset_cond-tiny-gpus1-batch32-fp32/training-state-000004.pt # test resume
+######################################################################
+
+
+######################################################################
+# SQG demo
+# raw data generation
+# python scripts/turb_SQG/sqg_raw_gen.py --device cuda:0 --N_total 100 --N_burn_in 10 # small size testing
+python scripts/turb_SQG/sqg_raw_gen.py --device cuda:0 --N_total 1000 
+
+#####################
+# train lo res model
+# generate paired dataset low resolution forward prediction
+python scripts/turb_SQG/gen_pair_dsample.py --n_cond 2 --var_select 0 --squeeze_var --save_zip
+python scripts/code_tests/4_test_dataloader.py runs=sqg32_dy # check loader
+python scripts/train/train_cond.py runs=sqg32_dy dry_run=true # check trainer dry
+python scripts/train/train_cond.py runs=sqg32_dy # run trainer 
+# CUDA_VISIBLE_DEVICES=2 nohup torchrun --nproc_per_node=1 --standalone scripts/train/train_cond.py runs=sqg32_dy & disown # production run
+#####################
+
+
+#####################
+# train patch model
+# get training pair (2 hist points)
+python scripts/turb_SQG/gen_pair_patch.py --n_cond 2 --var_select 0 --n_patch 5000 --squeeze_var --save_zip # predictive generation test
+
+
+# static tranining (hist = 0)
+python scripts/code_tests/4_test_dataloader.py runs=sqg_patch_c0 # check loader
+python scripts/train/train_cond.py runs=sqg_patch_c0 dry_run=true # check trainer dry
+# test short
+python scripts/train/train_cond.py runs=sqg_patch_c0 duration=0.5 # run trainer mid model (short)
+# full run
+python scripts/train/train_cond.py runs=sqg_patch_c0 # run trainer mid model
+# large model (ddpmpp) 
+# python scripts/train/train_cond.py runs=sqg_patch_c0 network_kwargs=ddpmpp batch_size=200 # run trainer (ddpmpp) 
+
+
+# dynamic training (hist = 2)
+python scripts/code_tests/4_test_dataloader.py runs=sqg_patch_c2 # check loader
+python scripts/train/train_cond.py runs=sqg_patch_c2 dry_run=true # check trainer dry
+# full run
+python scripts/train/train_cond.py runs=sqg_patch_c2 # mid model
+######################################################################
+# train path next model
+CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc_per_node=2 scripts/train/train_cond.py runs=sqg_path_next
+
+
+
+
+
+
+######################################################################
+# some run code template
+nohup <code> & disown
+CUDA_VISIBLE_DEVICES=2 torchrun --nproc_per_node=1 my_script.py # run train 
+CUDA_VISIBLE_DEVICES=1,2 nohup torchrun --nproc_per_node=2 --standalone train.py & disown # nohup run
+
+
+# watch gpu usage (every 1 second)
+watch -n 1 nvidia-smi
+
