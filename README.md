@@ -24,8 +24,8 @@ This project provides a template for conditional generation using the EDM framew
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/zezhongzhang/glocal-condiff-turb
-cd glocal-condiff-turb
+git clone https://github.com/Toanhuynh997/IntEnSF
+cd IntEnSF
 ```
 
 2. Install environment (recreate if upgrading from an older PyTorch 1.12 env):
